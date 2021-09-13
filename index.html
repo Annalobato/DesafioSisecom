@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Hello World!</title>
+
+  </head>
+  <body>
+      <h2>Sisecom Cadastro</h2>
+      <form action="">
+          <label for="icodigo">Código</label><br>
+          <input type="number" id="incodigo"><br><br>
+
+          <label for="icpfcnpj">CPF/CNPJ</label><br>
+          <input type="text" id="icpfcnpj"><br><br>
+
+          <label for="ipfpj">Tipo (PF/PJ)</label><br>
+          <input type="text" id="ipfpj"><br><br>
+
+          <label for="irgie">RG/IE</label><br>
+          <input type="text" id="irgie"><br><br>
+
+          <label for="inomerazaosocial">Nome/Razão Social</label><br>
+          <input type="text" id="inomerazaosocial"><br><br>
+
+          <label for="inomeabreviadonomefantasia">Nome Abreviado/Nome Fantasia</label><br>
+          <input type="text" id="inomeabreviadonomefantasia"><br><br>
+          
+          <h3>Dados do Endereço</h3>
+          <label for="icep">CEP</label>
+          <input type="text" id="icep">
+
+          <label for="ilogradouro">Logradouro</label>
+          <input type="text" id="ilogradouro"><br><br>
+
+          <label for="inumero">N˚</label>
+        <input type="number" id="inumero">
+
+        <label for="icomplemento">Complemento</label>
+        <input type="text" id="icomplemento"><br><br>
+
+        <label for="ibairro">Bairro</label>
+        <input type="text" id="ibairro">
+
+        <label for="imunicipio">Município</label>
+        <input type="text" id="imunicipio"><br><br>
+
+        <label for="iunidadefederativa">Unidade Federativa</label>
+        <input type="text" id="iunidadeferativa"><br><br>
+
+        <label for="iemail">Email</label><br>
+        <input type="text" id="iemail"><br><br>
+
+        <label for="itelefone">Telefone/Celular</label><br>
+        <input type="number" id="itelefone"><br><br>
+
+        <label for="iinlusao">Inclusão</label><br>
+        <input type="date" id="iinclusao"><br><br>
+
+        <label for="ialteracao">Alteração</label><br>
+        <input type="date" id="ialteracao"><br><br>
+
+        <label for="imarca">Marca</label><br>
+        <input type="number" id="imarca"><br><br>
+
+        <label for="ibloqueado">Bloqueado</label><br>
+        <input type="number" id="ibloqueado"><br><br> 
+    
+
+      </form>
+
+      <script>
+
+        document.getElementById('incodigo').addEventListener('input',function(e){
+            if (e.target.value.length == 8) {
+                requestData('url', (data) => {
+                    fillFields(data);
+                })
+            }
+        },false);
+
+        document.getElementById('icpfcnpj').addEventListener('input',function(e){
+            if (e.target.value.length == 11 || e.target.value.length == 14) {
+                requestData('url', (data) => {
+                    fillFields(data);
+                })
+            }           
+        },false);
+
+        document.getElementById('icep').addEventListener('input',function(e){
+            if (e.target.value.trim().length != '') {
+                requestData('url', (data) => {
+                    fillFields(data);
+                })
+            }
+        },false);
+
+        document.getElementById('icep').addEventListener('input',function(e){
+            if (e.target.value.trim().length != '') {
+                requestData('url', (data) => {
+                    fillFields(data);
+                })
+            }
+        },false);
+
+        function fillFields(data) {
+            document.getElementById('incodigo').value = data.codigo;
+            document.getElementById('icpfcnpj').value = data.cadastro_nacional;
+            document.getElementById('ipfpj').value = data.tipo;
+            document.getElementById('irgie').value = data.registro;
+            document.getElementById('inomerazaosocial').value = data.nome;
+            document.getElementById('inomeabreviadonomefantasia').value = data.segundo_nome;
+            document.getElementById('icep').value = data.cep;
+            document.getElementById('ilogradouro').value = data.logradouro;
+            document.getElementById('inumero').value = data.numero;
+            document.getElementById('icomplemento').value = data.complemento;
+            document.getElementById('ibairro').value = data.bairro;
+            document.getElementById('imunicipio').value = data.municipio;
+            document.getElementById('iunidadeferativa').value = data.uf;
+            document.getElementById('iemail').value = data.email;
+            document.getElementById('itelefone').value = data.telefone;
+            document.getElementById('iinclusao').value = data.inclusao;
+            document.getElementById('ialteracao').value = data.alteracao;
+            document.getElementById('imarca').value = data.marca;
+            document.getElementById('ibloqueado').value = data.bloqueado;
+        }
+
+        function requestData(url, callback) {
+            const request = new XMLHttpRequest();
+
+            request.responseType = 'json';
+            request.onload = () => {
+                const data = this.response;
+                callback(data);
+            }
+
+            request.open('GET', url);
+            request.send();
+        }
+
+    </script>
+
+  </body>
+</html>
